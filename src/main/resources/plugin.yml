@@ -1,0 +1,7 @@
+name: GravityChanger
+version: @version@
+main: net.spaceblock.mc.gravity.gravitychanger.GravityChanger
+api-version: 1.16
+commands:
+  gravity:
+    permission: gravity.change
