@@ -61,7 +61,7 @@ public class GravityMode {
                 livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, currentLevel, false, false, false));
                 break;
             case MORE_GRAVITATION:
-                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 2, false, false, false));
+                livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 40, 1, false, false, false));
                 livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 40, (-currentLevel) - 1, false, false, false));
                 break;
             case ANTI_GRAVITATION:
