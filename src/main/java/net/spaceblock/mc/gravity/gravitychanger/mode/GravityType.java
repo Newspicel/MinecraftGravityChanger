@@ -1,4 +1,4 @@
-package net.spaceblock.mc.gravity.gravitychanger;
+package net.spaceblock.mc.gravity.gravitychanger.mode;
 
 public enum GravityType {
     DEFAULT_GRAVITATION(0,0,0),

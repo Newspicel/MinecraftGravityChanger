@@ -1,5 +1,10 @@
 package net.spaceblock.mc.gravity.gravitychanger;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import net.spaceblock.mc.gravity.gravitychanger.mode.GravityMode;
+import net.spaceblock.mc.gravity.gravitychanger.mode.GravityType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,17 +17,23 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Singleton
 public class GravityCommand implements CommandExecutor, TabCompleter {
+
+    @Inject
+    private Provider<GravityController> gravityController;
 
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
-            if (args.length == 2) {
+            if (args.length == 1 || args.length == 2) {
                 Optional.of(GravityType.valueOf(args[0])).ifPresent(gravityType -> {
                     try {
-                        GravityMode gravityMode = new GravityMode().setGravity(gravityType, Integer.parseInt(args[1]));
-                        GravityAPI.getInstance().setWorldGravity(((Player) sender).getWorld(), gravityMode);
+                        GravityMode gravityMode = new GravityMode().setGravity(gravityType, args.length == 1 ? gravityType.getDefaultLevel() : Integer.parseInt(args[1]));
+                        String name = ((Player) sender).getWorld().getName();
+                        gravityController.get().getWorldGravity().put(name, gravityMode);
+                        sender.sendMessage("Set Gravity in World: " + name + " to " + gravityMode.toString());
                     } catch (GravityTypeNotAllowedException e) {
                         sender.sendMessage(e.getMessage());
                     }
